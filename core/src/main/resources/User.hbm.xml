@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.elephorm.formation.core.entity.User" table="USERS">
+        <id name="id" column="USERS_ID">
+            <generator class="identity" />
+        </id>
+        <property name="nom" column="USERNAME" />
+    </class>
+</hibernate-mapping>

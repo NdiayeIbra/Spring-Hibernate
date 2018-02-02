@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.elephorm.formation.core.entity.Film" table="MOVIE">
+        <id name="id" column="ID_M">
+            <generator class="identity" />
+        </id>
+        <property name="titre" column="TITLE" />
+        <property name="genre" column="MOVIE_TYPE" />
+        <property name="nbExemple" column="COPIES" />
+        <many-to-one name="acteurPrincipal" column="MAIN_ACTOR_ID"  cascade="all"/>
+
+        <set name="acteurSecondaire" table="MOVIE_SEC_ACTORS" inverse="false" fetch="select" cascade="all">
+            <key column="ID_MOVIE" />
+            <many-to-many class="com.elephorm.formation.core.entity.Acteur" column="ID_ACTOR" />
+        </set> 
+
+    </class>
+</hibernate-mapping>
