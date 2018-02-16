@@ -6,25 +6,21 @@
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="connection.url">jdbc:mysql://localhost:3306/videos</property>
     <property name="connection.username">root</property>
-    <property name="connection.password">fawzeyni</property>
+    <property name="connection.password">fawzeyeni</property>
     <!-- Pool de connection (interne) Nombre de connexion que Hibernate va ouvrir au démarage de l'appli et va laisser ouverte sous forme de cache mémoire-->
     <property name="connection.pool_size">5</property>
-   
     <!-- SQL dialect -->
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="current_session_context_class">thread</property>
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-
     <!-- Supprimer et re-créer le schéma de base de données au démarrage ddl = Data Definition Langage : Create, Delete..-->
     <property name="hbm2ddl.auto">validate</property>
     <!-- Montrer toutes les réquêtes générées -->
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
-    
     <!-- Mapping des entités-->
     <mapping resource="User.hbm.xml"/>
     <mapping resource="Film.hbm.xml"/>
     <mapping resource="Acteur.hbm.xml"/>
-    
   </session-factory>
 </hibernate-configuration>
