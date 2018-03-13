@@ -6,39 +6,45 @@
 package com.elephorm.formation.core.service;
 
 import com.elephorm.formation.core.entity.Film;
-import com.elephorm.formation.core.repository.FileFilmDao;
-import com.elephorm.formation.core.repository.HibernateFilmDao;
-import com.elephorm.formation.core.repository.JdbcFilmDao;
+import com.elephorm.formation.core.repository.FilmDaoInterface;
 import java.util.List;
+import javax.annotation.Resource;
+import org.hibernate.Hibernate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
         
 
 /**
  *
  * @author JLM
  */
-public class FilmService {
+@Service
+public class FilmService implements FilmServiceInterface{
+    // Instanciation avec Spring
+   @Resource
+    FilmDaoInterface dao;
     
-    FileFilmDao fileDao = new FileFilmDao();
-    JdbcFilmDao jdbcDao = new JdbcFilmDao();
-    HibernateFilmDao hibernateDao = new HibernateFilmDao();
-    
+    @Override
+    @Transactional
     public void registerFilm(Film film){
-        // Saugegaer via Fichier        
-        // fileDao.save(film);
-        
-        // Saugegaer via JDBC
-        // jdbcDao.save(film);
-        
-        // Saugegaer via Hibernate
-        hibernateDao.save(film);
+        // Saugegaer génral via contrat d'interface de Spring
+        dao.save(film);
     }
     
+    @Override
+    @Transactional
     public Film getId(int id){
-        return hibernateDao.getId(id);
+        Film film = dao.getId(id);
+        // Avec l'aspect trasactionel ça se gère dans le service
+        Hibernate.initialize(film.getActeurPrincipal());
+        Hibernate.initialize(film.getActeurSecondaire());
+        return film;
     }
     
+    @Override
+    @Transactional
     public List<Film> findAll(){
-        return hibernateDao.findAll();
+        return dao.findAll();
     }
     
 }

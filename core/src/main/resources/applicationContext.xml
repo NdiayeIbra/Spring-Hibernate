@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd ">
+
+    <!-- ANNOTATIONS POUR L'INJECTION DE DEPENDANCES -->
+    <context:annotation-config/>
+    
+	<!-- ANNOTATIONS POUR LA CREATION DE BEANS -->
+    <context:component-scan base-package="com.elephorm.formation.core.repository.hibernate" />
+    <context:component-scan base-package="com.elephorm.formation.core.service" />
+    <context:component-scan base-package="com.elephorm.formation.core.controller" />
+    
+    
+    <!-- Transactions -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+            <property name="sessionFactory" ref="theSessionFactory" />
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    
+    <!-- Configuration de la SessionFactory d'hibernate avec Spring-->
+        <bean id="theSessionFactory" 
+            class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+            <property name="dataSource">
+                <ref bean="dataSource" />
+            </property>
+            
+            <property name="mappingResources">
+              <list>
+                  <value>User.hbm.xml</value>
+                  <value>Film.hbm.xml</value>
+                  <value>Acteur.hbm.xml</value>
+              </list>
+            </property>
+            <property name="hibernateProperties">
+                <props>
+                    <!-- SQL dialect -->
+                    <prop key="dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+                    <prop key="current_session_context_class">thread</prop>
+                    <prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+                    <!-- Montrer toutes les réquêtes générées -->
+                    <prop key="hibernate.show_sql">true</prop>
+                    <prop key="hibernate.format_sql">true</prop>
+                    <!-- Supprimer et re-créer le schéma de base de données au démarrage ddl = Data Definition Langage : Create, Delete..-->
+                    <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                </props>
+            </property>
+        </bean>
+        
+        <!-- DataSource-->
+        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+            destroy-method="close">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+            <property name="url" value="jdbc:mysql://localhost:3306/videos" />
+            <property name="username" value="root" />
+            <property name="password" value="fawzeyeni" />
+	</bean>
+
+	<!-- ANNOTATIONS POUR AOP -->
+<!--	<aop:aspectj-autoproxy />-->
+
+    
+    <!--    <bean id="imFilmDao" class="com.elephorm.formation.core.repository.InMemoryFilmDao" >
+        <property name="films" >
+            <list>
+                <bean class="com.elephorm.formation.core.entity.Film">
+                    <property name="titre" value="Café avec..." />
+                </bean>
+                <bean class="com.elephorm.formation.core.entity.Film">
+                    <property name="titre" value="Wiri-Wiri" />
+                </bean>
+                <bean class="com.elephorm.formation.core.entity.Film">
+                    <property name="titre" value="Modou-Modou" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="filmService" class="com.elephorm.formation.core.service.FilmService" >
+        <property name="dao" ref="imFilmDao" />
+    </bean>-->
+    
+    <!--Avec component on auto-détecte les beans, donc plus besoin de les délcarer dans le fichier -->
+    <!--    <bean id="filmDao" class="com.elephorm.formation.core.repository.HibernateFilmDao" />
+    
+    <bean id="filmService" class="com.elephorm.formation.core.service.FilmService" />
+          
+    <bean id="filmController" class="com.elephorm.formation.core.controller.DefaultFilmController" >
+        <property name="service" ref="filmService" />
+    </bean>-->
+        
+</beans> 

@@ -6,7 +6,6 @@
 package com.elephorm.formation.core;
 
 import com.elephorm.formation.core.controller.DefaultFilmController;
-import com.elephorm.formation.core.entity.Film;
 
 /**
  *

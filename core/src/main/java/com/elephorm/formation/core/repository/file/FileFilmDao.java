@@ -3,18 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.elephorm.formation.core.repository;
+package com.elephorm.formation.core.repository.file;
 
 import com.elephorm.formation.core.entity.Film;
+import com.elephorm.formation.core.repository.FilmDaoInterface;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 
  * @author JLM
  */
-public class FileFilmDao {
+public class FileFilmDao implements FilmDaoInterface {
     // Permet de sauvegarder des films : Une ligne par film propriétés séparées par des ';'
+    @Override
     public void save(Film film){
         FileWriter fw;
         try {
@@ -37,6 +40,16 @@ public class FileFilmDao {
         }
 
         System.out.println("Done");
+    }
+
+    @Override
+    public Film getId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Film> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

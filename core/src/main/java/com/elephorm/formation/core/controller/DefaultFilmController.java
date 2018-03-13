@@ -7,17 +7,27 @@ package com.elephorm.formation.core.controller;
 
 import com.elephorm.formation.core.entity.Acteur;
 import com.elephorm.formation.core.entity.Film;
-import com.elephorm.formation.core.service.FilmService;
+import com.elephorm.formation.core.service.FilmServiceInterface;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author JLM
  */
+@Controller(value = "filmController")
 public class DefaultFilmController {
+    @Autowired
+    private FilmServiceInterface service;
+    
+    public void setService(FilmServiceInterface service) {
+        this.service = service;
+    }
+    
     public void createFilmFromInputConsole(){
         Film film = new Film();
         Scanner sc = new Scanner(System.in);
@@ -56,7 +66,7 @@ public class DefaultFilmController {
        film.setActeurSecondaire(new HashSet<>(acteurSecondaires));
         
         // Appel du service
-        FilmService service = new FilmService();
+        // FilmService service = new FilmService(); Instanciation avec Spring
         service.registerFilm(film);
     }
     
@@ -66,8 +76,6 @@ public class DefaultFilmController {
         System.out.println("Donner un Numéro de Film : ");
         id = Integer.parseInt(sc.next());
         
-        FilmService service = new FilmService();
-                
         Film film =  service.getId(id);    
         
         System.out.println("Le film est : " + film.toString());
@@ -80,11 +88,11 @@ public class DefaultFilmController {
     }
 
     public void getListeFilm() {
-        FilmService service = new FilmService();
         List<Film>  films = service.findAll();
         films.forEach((film) -> {
             System.out.println(film.toString());
         });
     }
+
     
 }
